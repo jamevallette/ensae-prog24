@@ -1,3 +1,4 @@
+"""
 from grid import Grid
 
 g = Grid(2, 3)
@@ -10,3 +11,5 @@ print(file_name)
 
 g = Grid.grid_from_file(file_name)
 print(g)
+"""
+print(swap((0,0),(1,0)))
