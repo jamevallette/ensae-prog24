@@ -68,8 +68,8 @@ class Grid():
         # TODO: implement this function (and remove the line "raise NotImplementedError").
         raise NotImplementedError
     
-    def right_pos(self,cell):
-        if state[cell[0]][cell[1]]==n*cell[0]+cell[1]+1
+    def right_pos(self, cell):
+        if state[cell[0]][cell[1]]==n*cell[0]+cell[1]+1:
             return True
         return False
 

@@ -9,9 +9,8 @@ class Solver():
         """
         Solves the grid and returns the sequence of swaps at the format 
         [((i1, j1), (i2, j2)), ((i1', j1'), (i2', j2')), ...]. 
-        """
-        list_pair_cell=[]
-        
+        """       
+        compteur=0
         for k in range(1,n*m+1):
             i_start=0
             j_start=0
@@ -22,14 +21,14 @@ class Solver():
                         j_start=j
                     else:
                         raise ValueError
-            if (k-1)//n=i_start:
+            if (k-1)//n==i_start:
                 if j_start>(k-1)%n:
                     while j_start>(k-1)%n:
                         swap((i_start,j_start),(i_start,j_start-1))
                 if j_start<(k-1)%n:
                     while j_start<(k-1)%n:
                         swap((i_start,j_start),(i_start,j_start+1))
-            elif (k-1)%n=j_start:
+            elif (k-1)%n==j_start:
                 if i_start>(k-1)//n:
                     while i_start>(k-1)//n:
                         swap((i_start,j_start),(i_start-1,j_start))
@@ -40,22 +39,28 @@ class Solver():
                 if j_start>(k-1)%n:
                     while j_start>(k-1)%n:
                         swap((i_start,j_start),(i_start,j_start-1))
+                        compteur=compteur+1
                     if i_start>(k-1)//n:
                         while i_start>(k-1)//n:
                             swap((i_start,j_start),(i_start-1,j_start))
-                    if i_start<(k-1)//n:
+                            compteur=compteur+1
+                    elif i_start<(k-1)//n:
                         while i_start>(k-1)//n:
                             swap((i_start,j_start),(i_start+1,j_start))
-                if j_start<(k-1)%n:
+                            compteur=compteur+1
+                elif j_start<(k-1)%n:
                     while j_start<(k-1)%n:
                         swap((i_start,j_start),(i_start,j_start+1))
+                        compteur=compteur+1
                     if i_start>(k-1)//n:
                         while i_start>(k-1)//n:
                             swap((i_start,j_start),(i_start-1,j_start))
-                    if i_start<(k-1)//n:
+                            compteur=compteur+1
+                    elif i_start<(k-1)//n:
                         while i_start>(k-1)//n:
                             swap((i_start,j_start),(i_start+1,j_start))
-
+                            compteur=compteur+1
+            print(compteur)
           
     
 
