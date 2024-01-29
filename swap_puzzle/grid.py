@@ -16,7 +16,7 @@ class Grid():
         Number of columns in the grid
     state: list[list[int]]
         The state of the grid, a list of list such that state[i][j] is the number in the cell (i, j), i.e., in the i-th line and j-th column. 
-        Note: lines are numbered 0..m and columns are numbered 0..n.
+        Note: lines are numbered 0..m-1 and columns are numbered 0..n-1.
     """
     
     def __init__(self, m, n, initial_state = []):
@@ -57,13 +57,21 @@ class Grid():
         """
         Checks is the current state of the grid is sorted and returns the answer as a boolean.
         """
-
-        for i in range len(self.state):
-            if self.state[i][i+1]==self.state[i][i]:
+        result=[]
+        for i in range (self.m):
+            result = result + self.state[i]
+        for k in range (len(result)-1):
+            if result[k]>result[k+1]:
+                return False
+            return True
                 
-
         # TODO: implement this function (and remove the line "raise NotImplementedError").
         raise NotImplementedError
+    
+    def right_pos(self,cell):
+        if state[cell[0]][cell[1]]==n*cell[0]+cell[1]+1
+            return True
+        return False
 
     def swap(self, cell1, cell2):
         """
@@ -82,7 +90,7 @@ class Grid():
                 self.state[cell1[0]][cell1[1]]=self.state[posc2[0]][posc2[1]]
                 self.state[cell2[0]][cell2[1]]=self.state[posc1[0]][posc1[1]]
         elif cell1[1]==cell2[1]:
-            if cell1[0]==cell2[0]+1 or cell1[0]==cell2[0]-1 or cell[0]==cell[0]:
+            if cell1[0]==cell2[0]+1 or cell1[0]==cell2[0]-1 or cell1[0]==cell2[0]:
                 self.state[cell1[0]][cell1[1]]=self.state[posc2[0]][posc2[1]]
                 self.state[cell2[0]][cell2[1]]=self.state[posc1[0]][posc1[1]]
         else:
