@@ -97,14 +97,31 @@ class Graph:
         path: list[NodeType] | None
             The shortest path from src to dst. Returns None if dst is not reachable from src
         """ 
+        
+        visited_nodes = []
+        waiting_list=[[src]]
+        path=[src]
 
-        dist=dist(src)
-        queue=[]
-        while queue != []:
-            
-            queue.append(src)
-            queue=graph[src]
+        if src==dst:
+            return path[0]
+        
+        while waiting_list:
+            path=waiting_list.pop(0)
+            node=path[-1]
 
+            if node not in visited_nodes:
+                neighbours=graph[node]
+
+                for neighbour in neighbours:
+                    new_path= list(path)
+                    new_path.append(neighbour)
+                    waiting_list.append(new_path)
+
+                    if neighbour == dst:
+                        return path
+                    
+                visited_nodes.append(node)
+        return None
 
         # TODO: implement this function (and remove the line "raise NotImplementedError").
         raise NotImplementedError
