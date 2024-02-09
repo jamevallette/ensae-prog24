@@ -2,7 +2,16 @@
 This is the grid module. It contains the Grid class and its associated methods.
 """
 
-import random
+
+"""Turns a list (of list) into a tuple (of tuple).
+This allows to use graph methods with a swap puzzle graph"""
+def list_to_tuple(list):
+    return tuple([tuple(element) for element in list])
+    
+
+
+
+
 
 class Grid():
     """
