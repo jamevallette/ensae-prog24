@@ -16,5 +16,9 @@ print(g)
 from graph import Graph
 data_path = "ensae-prog24/input/"
 file_name=data_path + "graph1.in"
-test = Graph.graph_from_file(Users\Jame\Documents\GitHub\ensae-prog24\input\graph1.in)
+test = Graph.graph_from_file(file_name)
 print(test)
+
+
+
+print(test.bfs(1,20))
