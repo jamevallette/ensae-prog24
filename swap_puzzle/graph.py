@@ -99,18 +99,19 @@ class Graph:
         """ 
         
         visited_nodes = []
-        waiting_list=[[src]]
+        waiting_list=[]
+        wainting!list.append(src)
         path=[src]
 
         if src==dst:
             return path[0]
         
-        while waiting_list:
+        while waiting_list != []:
             path=waiting_list.pop(0)
             node=path[-1]
 
             if node not in visited_nodes:
-                neighbours=graph[node]
+                neighbours=self.graph[node]
 
                 for neighbour in neighbours:
                     new_path= list(path)
