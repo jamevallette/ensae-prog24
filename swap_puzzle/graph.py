@@ -99,31 +99,23 @@ class Graph:
         """ 
         
         visited_nodes = []
-        waiting_list=[]
-        waiting_list.append(src)
-        path=[]
-        neighbours=[]
-
+        waiting_list=[[src]]
+        
         if src==dst:
-            return path[0]
+            return src
         
         while waiting_list != []:
-            first_elt=waiting_list.pop(0)
-            path.append(first_elt)
+            path=waiting_list.pop(0)
             node=path[-1]
 
-            if node not in visited_nodes:
-                neighbours=self.graph[node]
-
-                for neighbour in neighbours:
-                    new_path = path
-                    new_path.append(neighbour)
-                    waiting_list.append(new_path)
-
-                    if neighbour == dst:
-                        return path
-                    
-                visited_nodes.append(node)
+            if node == dst: 
+                return path
+            neighbours=self.graph[node]
+            for neighbour in neighbours:
+                new_path = list(path)
+                new_path.append(neighbour)
+                waiting_list.append(new_path)
+        
         return None
 
         # TODO: implement this function (and remove the line "raise NotImplementedError").

@@ -1,16 +1,7 @@
 """
 This is the grid module. It contains the Grid class and its associated methods.
 """
-
-
-"""Turns a list (of list) into a tuple (of tuple).
-This allows to use graph methods with a swap puzzle graph"""
-def list_to_tuple(list):
-    return tuple([tuple(element) for element in list])
-    
-
-
-
+from functools import reduce
 
 
 class Grid():
@@ -61,6 +52,24 @@ class Grid():
         Returns a representation of the grid with number of rows and columns.
         """
         return f"<grid.Grid: m={self.m}, n={self.n}>"
+    
+ 
+    
+    def liste_to_condensat(self):
+        """
+        Turns a list (of list) into a condensat.
+        This allows to use graph methods with a swap puzzle graph
+        """
+        result=[]
+        for i in range (self.m):
+           result = result + self.state[i]
+        print(tuple(result))
+
+        final_tuple=tuple(result)
+        
+        result_int = reduce(lambda acc, digit: acc * 10 + digit, final_tuple) #méthode de transformation d'un tuple vers un entier
+
+        return result_int
 
     def is_sorted(self):
         """
@@ -149,4 +158,24 @@ class Grid():
             grid = Grid(m, n, initial_state)
         return grid
 
+"""
+    def bfs_final_countdown(self,src,dst):
+        
+        visited_condensats=[]
+        waiting_list=[[src]]
 
+        if src==dst:
+            print("Espèce d'abruti c'est les mêmes grilles")
+        
+        while wainting_list != []:
+            path=wainting_list.pop(0)
+            node=path[-1]
+
+            if node==dst:
+                return path
+            
+            node_grid=
+
+            neighbours=[]
+
+  """      
