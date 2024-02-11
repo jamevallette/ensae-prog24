@@ -55,7 +55,7 @@ class Grid():
     
  
     
-    def liste_to_condensat(self):
+    def liste_to_condensat(self): # fonction qui permet de transformer une liste en un hashable à l'aide de la fonction reduce et de lambda #
         """
         Turns a list (of list) into a condensat.
         This allows to use graph methods with a swap puzzle graph
@@ -71,7 +71,7 @@ class Grid():
 
         return result_int
 
-    def is_sorted(self):
+    def is_sorted(self):# fonction qui vérifie si les éléments de la grille sont bien ordonnés et qui retourne vrai ou faux en fonction #
         """
         Checks is the current state of the grid is sorted and returns the answer as a boolean.
         """
@@ -91,7 +91,7 @@ class Grid():
             return True
         return False
 
-    def swap(self, cell1, cell2):
+    def swap(self, cell1, cell2):# fonction de swap entre deux cellules si et seulement si elles sont adjacentes #
         """
         Implements the swap operation between two cells. Raises an exception if the swap is not allowed.
 
@@ -115,7 +115,7 @@ class Grid():
             raise ValueError
 
 
-    def swap_seq(self, cell_pair_list):
+    def swap_seq(self, cell_pair_list):# fonction qui exécute une liste de swap, en rapport à la fonction définie ci-dessus #
         """
         Executes a sequence of swaps. 
 
@@ -159,7 +159,7 @@ class Grid():
         return grid
 
 """
-    def bfs_final_countdown(self,src,dst):
+    def bfs_final(self,src,dst):# fonction bfs appliquée à la grille, chaque noeud étant un état de la grille et chaque arête correspond à un swap #
         
         visited_condensats=[]
         waiting_list=[[src]]
