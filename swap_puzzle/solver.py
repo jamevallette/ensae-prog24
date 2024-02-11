@@ -2,6 +2,7 @@ from grid import Grid
 from random import *
 
 class Solver(): 
+# Classe dans laquelle on résout le problème du puzzle avec un algorithme glouton naïf qui teste la position de chaque élément pour les mettre dans la bonne cellule # 
     """
     A solver class, to be implemented.
     """
