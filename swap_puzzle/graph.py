@@ -81,7 +81,7 @@ class Graph:
         self.nb_edges += 1
         self.edges.append((node1, node2))
 
-    def bfs(self, src, dst): 
+    def bfs(self, src, dst): # fonction BFS, qui prend comme paramètres le noeud de départ src et le noeud d'arriver dst en affichant le plus court chemin entre les deux #
         """
         Finds a shortest path from src to dst by BFS.  
 
