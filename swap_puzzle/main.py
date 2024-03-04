@@ -1,7 +1,6 @@
 
 from grid import Grid
 
-
 data_path = "ensae-prog24/input/"
 file_name = data_path + "grid3.in"
 
@@ -9,8 +8,10 @@ print(file_name)
 
 g = Grid.grid_from_file(file_name)
 print(g)
-print(g.liste_to_condensat())
-print(g.swap([1,1],[1,2]))
+g.swap((1,1),(1,2))
+print(g)
+
+print(g.voisin())
 
 
 """

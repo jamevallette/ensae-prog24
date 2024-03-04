@@ -100,17 +100,17 @@ class Grid():
         cell1, cell2: tuple[int]
             The two cells to swap. They must be in the format (i, j) where i is the line and j the column number of the cell. 
         """
-        posc1=[cell1[0],cell1[1]]
-        posc2=[cell2[0],cell2[1]]
+        c1=self.state[cell1[0]][cell1[1]]
+        c2=self.state[cell2[0]][cell2[1]]
 
         if cell1[0]==cell2[0]:
             if cell1[1]==cell2[1]+1 or cell1[1]==cell2[1]-1 or cell1[1]==cell2[1]: 
-                self.state[cell1[0]][cell1[1]]=self.state[posc2[0]][posc2[1]]
-                self.state[cell2[0]][cell2[1]]=self.state[posc1[0]][posc1[1]]
+                self.state[cell1[0]][cell1[1]]=c2
+                self.state[cell2[0]][cell2[1]]=c1
         elif cell1[1]==cell2[1]:
             if cell1[0]==cell2[0]+1 or cell1[0]==cell2[0]-1 or cell1[0]==cell2[0]:
-                self.state[cell1[0]][cell1[1]]=self.state[posc2[0]][posc2[1]]
-                self.state[cell2[0]][cell2[1]]=self.state[posc1[0]][posc1[1]]
+                self.state[cell1[0]][cell1[1]]=c2
+                self.state[cell2[0]][cell2[1]]=c1
         else:
             raise ValueError
 
@@ -162,11 +162,12 @@ class Grid():
         neighbors=[]
         for i in range(self.n-1):
             for j in range(self.m-1):
-                copie1= Grid(self.m, self.n, self.state[:][:])
-                copie2= Grid(self.m,self.n,self.state[:][:])
+                copie1= Grid(self.m, self.n, self.state.copy())
+                copie2= Grid(self.m,self.n,self.state.copy())
                 copie1.swap((i,j),(i+1,j))
                 print("after swap : ",copie1.state)
-                copie2.swap((i,j),(i,j+1))
+                copie1.swap((i,j),(i,j+1))
+                print("after swap bis : ",copie1.state)
                 neighbors.append(copie1.liste_to_condensat())
                 neighbors.append(copie2.liste_to_condensat())
         return neighbors
