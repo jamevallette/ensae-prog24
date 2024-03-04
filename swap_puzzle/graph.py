@@ -136,7 +136,7 @@ class Graph:
         file_name: str
             The name of the file
 
-        Outputs: 
+        Outputs:
         -----------
         graph: Graph
             An object of the class Graph with the graph from file_name.

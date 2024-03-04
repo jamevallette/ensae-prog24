@@ -19,7 +19,7 @@ class Grid():
         Note: lines are numbered 0..m-1 and columns are numbered 0..n-1.
     """
     
-    def __init__(self, m, n, initial_state = []):
+    def __init__(self, m, n, initial_state=[]):
         """
         Initializes the grid.
 
@@ -158,6 +158,20 @@ class Grid():
             grid = Grid(m, n, initial_state)
         return grid
 
+    def voisin(self):
+        neighbors=[]
+        for i in range(self.n-1):
+            for j in range(self.m-1):
+                copie1= Grid(self.m, self.n, self.state[:][:])
+                copie2= Grid(self.m,self.n,self.state[:][:])
+                copie1.swap((i,j),(i+1,j))
+                print("after swap : ",copie1.state)
+                copie2.swap((i,j),(i,j+1))
+                neighbors.append(copie1.liste_to_condensat())
+                neighbors.append(copie2.liste_to_condensat())
+        return neighbors
+
+
 """
     def bfs_final(self,src,dst):# fonction bfs appliquée à la grille, chaque noeud étant un état de la grille et chaque arête correspond à un swap #
         
@@ -174,8 +188,10 @@ class Grid():
             if node==dst:
                 return path
             
-            node_grid=
+            
 
             neighbours=[]
+"""
 
-  """      
+
+        
