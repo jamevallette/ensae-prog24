@@ -158,19 +158,33 @@ class Grid():
             grid = Grid(m, n, initial_state)
         return grid
 
-    def voisin(self):
+    def voisin(self): #détermine tous les voisins d'une grille et retourne une liste de hash
         neighbors=[]
         for i in range(self.n-1):
-            for j in range(self.m-1):
-                copie1= Grid(self.m, self.n, self.state.copy())
-                copie2= Grid(self.m,self.n,self.state.copy())
-                copie1.swap((i,j),(i+1,j))
-                print("after swap : ",copie1.state)
-                copie1.swap((i,j),(i,j+1))
-                print("after swap bis : ",copie1.state)
-                neighbors.append(copie1.liste_to_condensat())
-                neighbors.append(copie2.liste_to_condensat())
+            for j in range(self.m-1):              
+                self.swap((i,j),(i+1,j))
+                neighbors.append(self.liste_to_condensat())
+                print(self.state)
+                self.swap((i,j),(i+1,j))
+                self.swap((i,j),(i,j+1))
+                neighbors.append(self.liste_to_condensat())
+                print(self.state)
+                self.swap((i,j),(i,j+1))
+        for i in range (self.n-1):
+            self.swap((i,self.m-1),(i+1,self.m-1))
+            neighbors.append(self.liste_to_condensat())
+            print(self.state)
+            self.swap((i,self.m-1),(i+1,self.m-1))
+        for j in range (self.m-1):
+            self.swap((self.n-1,j),(self.n-1,j+1))
+            neighbors.append(self.liste_to_condensat())
+            print(self.state)
+            self.swap((self.n-1,j),(self.n-1,j+1))
+        print(len(neighbors))
         return neighbors
+    
+    
+    
 
 
 """
