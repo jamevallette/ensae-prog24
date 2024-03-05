@@ -60,16 +60,42 @@ class Grid():
         Turns a list (of list) into a condensat.
         This allows to use graph methods with a swap puzzle graph
         """
+
         result=[]
         for i in range (self.m):
            result = result + self.state[i]
-        print(tuple(result))
+        #print(tuple(result))
 
         final_tuple=tuple(result)
-        
-        result_int = reduce(lambda acc, digit: acc * 10 + digit, final_tuple) #méthode de transformation d'un tuple vers un entier
+        key_word=""
 
-        return result_int
+        for k in range(len(final_tuple)): 
+            #print(final_tuple[k])
+            key_word=key_word+"a"+str(final_tuple[k])
+        #result_int = reduce(lambda acc, digit: acc * 10 + digit, final_tuple) #méthode de transformation d'un tuple vers un entier
+
+        return key_word
+
+    def condensat_to_grid(m,n,condensat): #tentative de réciproque
+        print(condensat)
+        first_liste=condensat.split("a")
+        first_liste.pop(0)
+        print(first_liste)
+        
+        ligne=[]
+        matrice=[]
+
+        for i in range(m):
+            for j in range(i*(n)+1,(i+1)*n):
+                ligne=ligne.append(first_liste(j))
+                print(ligne)
+            matrice=matrice.append(ligne)
+
+        print(m)
+        print(n)
+        result=Grid(m,n,state[matrice])
+        print(result)
+
 
     def is_sorted(self):# fonction qui vérifie si les éléments de la grille sont bien ordonnés et qui retourne vrai ou faux en fonction #
         """
@@ -160,8 +186,8 @@ class Grid():
 
     def voisin(self): #détermine tous les voisins d'une grille et retourne une liste de hash
         neighbors=[]
-        for i in range(self.n-1):
-            for j in range(self.m-1):              
+        for i in range(self.m-1):
+            for j in range(self.n-1):              
                 self.swap((i,j),(i+1,j))
                 neighbors.append(self.liste_to_condensat())
                 print(self.state)
@@ -170,16 +196,16 @@ class Grid():
                 neighbors.append(self.liste_to_condensat())
                 print(self.state)
                 self.swap((i,j),(i,j+1))
-        for i in range (self.n-1):
-            self.swap((i,self.m-1),(i+1,self.m-1))
+        for i in range (self.m-1):
+            self.swap((i,self.n-1),(i+1,self.n-1))
             neighbors.append(self.liste_to_condensat())
             print(self.state)
-            self.swap((i,self.m-1),(i+1,self.m-1))
-        for j in range (self.m-1):
-            self.swap((self.n-1,j),(self.n-1,j+1))
+            self.swap((i,self.n-1),(i+1,self.n-1))
+        for j in range (self.n-1):
+            self.swap((self.m-1,j),(self.m-1,j+1))
             neighbors.append(self.liste_to_condensat())
             print(self.state)
-            self.swap((self.n-1,j),(self.n-1,j+1))
+            self.swap((self.m-1,j),(self.m-1,j+1))
         print(len(neighbors))
         return neighbors
     

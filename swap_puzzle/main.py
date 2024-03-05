@@ -2,17 +2,15 @@
 from grid import Grid
 
 data_path = "ensae-prog24/input/"
-file_name = data_path + "grid3.in"
+file_name = data_path + "grid1.in"
 
 print(file_name)
 
 g = Grid.grid_from_file(file_name)
-print(g)
-g.swap((1,1),(1,2))
-print(g)
 
-print(g.voisin())
-
+print(g)
+#print(g.voisin())
+print(Grid.condensat_to_grid(g.m,g.n,g.liste_to_condensat()))
 
 """
 import matplotlib.pyplot as plt
