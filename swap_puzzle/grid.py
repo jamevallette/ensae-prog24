@@ -213,7 +213,7 @@ class Grid():
     
 
 
-"""
+
     def bfs_final(self,src,dst):# fonction bfs appliquée à la grille, chaque noeud étant un état de la grille et chaque arête correspond à un swap #
         
         visited_condensats=[]
@@ -227,12 +227,18 @@ class Grid():
             node=path[-1]
 
             if node==dst:
+                visited_condensats.append(node)
                 return path
+            neighbours = self.graph[node]
+            for neighbour in neighbours:
+                new_path = list(path)
+                
+
             
             
 
             neighbours=[]
-"""
+
 
 
         
