@@ -2,17 +2,20 @@
 from grid import Grid
 
 data_path = "ensae-prog24/input/"
-file_name = data_path + "grid1.in"
-
+file_name = data_path + "grid2.in"
+file_bis = data_path + "grid2_bis.in"
 print(file_name)
 
 g = Grid.grid_from_file(file_name)
+h = Grid.grid_from_file(file_bis)
 
 print(g)
-#print(g.voisin())
-print(Grid.condensat_to_grid(g.m,g.n,g.liste_to_condensat()))
+print(g.liste_to_condensat())
 
-"""
+print(Grid.condensat_to_grid(g.liste_to_condensat()))
+#print(g.distance(h))
+
+"""first_liste[0]
 import matplotlib.pyplot as plt
 fig, ax = plt.subplots(1,1)
 for i in range(0,n):

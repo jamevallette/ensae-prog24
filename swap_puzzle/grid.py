@@ -67,7 +67,7 @@ class Grid():
         #print(tuple(result))
 
         final_tuple=tuple(result)
-        key_word=""
+        key_word=str(self.m)+"a"+str(self.n)
 
         for k in range(len(final_tuple)): 
             #print(final_tuple[k])
@@ -76,24 +76,27 @@ class Grid():
 
         return key_word
 
-    def condensat_to_grid(m,n,condensat): #tentative de réciproque
+    def condensat_to_grid(condensat): #réciproque ok !
         print(condensat)
         first_liste=condensat.split("a")
-        first_liste.pop(0)
         print(first_liste)
         
+        m=int(first_liste.pop(0))
+        n=int(first_liste.pop(1))
+
         ligne=[]
         matrice=[]
 
         for i in range(m):
-            for j in range(i*(n)+1,(i+1)*n):
-                ligne=ligne.append(first_liste(j))
+            ligne=[]
+            for j in range(i*n,(i+1)*n-1):
+                ligne.append(first_liste[j])
                 print(ligne)
-            matrice=matrice.append(ligne)
+            matrice.append(ligne)
 
         print(m)
         print(n)
-        result=Grid(m,n,state[matrice])
+        result=Grid(m,n,matrice)
         print(result)
 
 
@@ -209,8 +212,17 @@ class Grid():
         print(len(neighbors))
         return neighbors
     
-    
-    
+    def distance(self,dst):
+        
+        #if isinstance(dst, str):
+        #    Grid.condensat_to_grid()
+        distance = 0
+        for i in range (self.m):
+            for j in range (self.n):
+                if self.state[i][j] != dst.state[i][j]:
+                    distance += 1
+        return distance
+
 
 
 
