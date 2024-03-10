@@ -2,7 +2,7 @@
 This is the grid module. It contains the Grid class and its associated methods.
 """
 from functools import reduce
-
+import heapq
 
 class Grid():
     """
@@ -55,7 +55,7 @@ class Grid():
     
  
     
-    def liste_to_condensat(self): # fonction qui permet de transformer une liste en un hashable à l'aide de la fonction reduce et de lambda #
+    def grid_to_condensat(self): # fonction qui permet de transformer une liste en un hashable à l'aide de la fonction reduce et de lambda #
         """
         Turns a list (of list) into a condensat.
         This allows to use graph methods with a swap puzzle graph
@@ -77,27 +77,25 @@ class Grid():
         return key_word
 
     def condensat_to_grid(condensat): #réciproque ok !
-        print(condensat)
+
         first_liste=condensat.split("a")
-        print(first_liste)
+
         
         m=int(first_liste.pop(0))
-        n=int(first_liste.pop(1))
+        n=int(first_liste.pop(0))
 
         ligne=[]
         matrice=[]
 
         for i in range(m):
             ligne=[]
-            for j in range(i*n,(i+1)*n-1):
-                ligne.append(first_liste[j])
-                print(ligne)
+            for j in range(i*n,(i+1)*(n)):
+                ligne.append(int(first_liste[j]))
+
             matrice.append(ligne)
 
-        print(m)
-        print(n)
         result=Grid(m,n,matrice)
-        print(result)
+        return result
 
 
     def is_sorted(self):# fonction qui vérifie si les éléments de la grille sont bien ordonnés et qui retourne vrai ou faux en fonction #
@@ -155,7 +153,7 @@ class Grid():
             So the format should be [((i1, j1), (i2, j2)), ((i1', j1'), (i2', j2')), ...].
         """
         for k in range (len(cell_pair_list)):
-            swap(cell_pair_list[k][0],cell_pair_list[k][1])
+            self.swap(cell_pair_list[k][0],cell_pair_list[k][1])
 
     
 
@@ -192,26 +190,26 @@ class Grid():
         for i in range(self.m-1):
             for j in range(self.n-1):              
                 self.swap((i,j),(i+1,j))
-                neighbors.append(self.liste_to_condensat())
-                print(self.state)
+                neighbors.append(self.grid_to_condensat())
+
                 self.swap((i,j),(i+1,j))
                 self.swap((i,j),(i,j+1))
-                neighbors.append(self.liste_to_condensat())
-                print(self.state)
+                neighbors.append(self.grid_to_condensat())
+
                 self.swap((i,j),(i,j+1))
         for i in range (self.m-1):
             self.swap((i,self.n-1),(i+1,self.n-1))
-            neighbors.append(self.liste_to_condensat())
-            print(self.state)
+            neighbors.append(self.grid_to_condensat())
+
             self.swap((i,self.n-1),(i+1,self.n-1))
         for j in range (self.n-1):
             self.swap((self.m-1,j),(self.m-1,j+1))
-            neighbors.append(self.liste_to_condensat())
-            print(self.state)
+            neighbors.append(self.grid_to_condensat())
+
             self.swap((self.m-1,j),(self.m-1,j+1))
-        print(len(neighbors))
+
         return neighbors
-    
+
     def distance(self,dst):
         
         #if isinstance(dst, str):
@@ -226,31 +224,85 @@ class Grid():
 
 
 
-    def bfs_final(self,src,dst):# fonction bfs appliquée à la grille, chaque noeud étant un état de la grille et chaque arête correspond à un swap #
+    def bfs_final(src,dst):# fonction bfs appliquée à la grille, chaque noeud étant un état de la grille et chaque arête correspond à un swap #
         
+        src_name=src.grid_to_condensat()
+        dst_name=dst.grid_to_condensat()
+
         visited_condensats=[]
-        waiting_list=[[src]]
+        waiting_list=[[src_name]]
 
-        if src==dst:
-            print("Espèce d'abruti c'est les mêmes grilles")
+        if src_name==dst_name:
+            return []
         
-        while wainting_list != []:
-            path=wainting_list.pop(0)
+        while waiting_list != []:
+            path=waiting_list.pop(0)
             node=path[-1]
-
-            if node==dst:
-                visited_condensats.append(node)
-                return path
-            neighbours = self.graph[node]
-            for neighbour in neighbours:
-                new_path = list(path)
-                
-
-            
-            
 
             neighbours=[]
 
+            if node==dst_name: 
+                for step in path:
+                    print(Grid.condensat_to_grid(step))
+                return path
+
+            visited_condensats.append(node)
+            neighbours = Grid.condensat_to_grid(node).voisin()
+
+            for neighbour in neighbours:
+                if neighbour not in visited_condensats:
+                    new_path = list(path)
+                    new_path.append(neighbour)
+                    waiting_list.append(new_path)
+                
+    def solver_bfs(self):
+        dst=Grid(self.m,self.n)
+        Grid.bfs_final(self,dst)    
+  
 
 
-        
+    def solver_Astar(self):
+        dst = Grid(self.m, self.n)  # État objectif
+
+        src_name = self.grid_to_condensat()
+        dst_name = dst.grid_to_condensat()
+
+        visited_condensats = set()
+        priority = []  # File de priorité
+
+        # Initialisation avec l'état initial et son chemin
+        initial_path = [src_name]
+        heapq.heappush(priority, (0, initial_path))  # Coût actuel = 0
+
+        while priority:
+            # Extraction de l'élément de priorité minimale
+            cost, path = heapq.heappop(priority)
+            current_state = Grid.condensat_to_grid(path[-1])  # Dernier état du chemin
+
+            if current_state.grid_to_condensat() == dst_name:
+                # Solution trouvée
+                for step in path:
+                    print(Grid.condensat_to_grid(step))
+                return len(path)
+
+
+            if current_state.grid_to_condensat() in visited_condensats:
+                continue
+
+            visited_condensats.add(current_state.grid_to_condensat())
+
+            # Récupération des voisins de l'état actuel
+            neighbors = current_state.voisin()
+
+            for neighbour in neighbors:
+                # Coût du chemin actuel + coût pour atteindre le voisin + estimation heuristique du coût restant
+                new_cost = len(path) + Grid.condensat_to_grid(neighbour).distance(dst)
+
+                # Nouveau chemin avec le voisin ajouté
+                new_path = path + [neighbour]
+
+                # Ajout du nouveau chemin dans la file de priorité
+                heapq.heappush(priority, (new_cost, new_path))
+
+        # Si aucun chemin n'a été trouvé
+        return None

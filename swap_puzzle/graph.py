@@ -118,9 +118,6 @@ class Graph:
         
         return None
 
-        # TODO: implement this function (and remove the line "raise NotImplementedError").
-        raise NotImplementedError
-
     @classmethod
     def graph_from_file(cls, file_name):
         """
