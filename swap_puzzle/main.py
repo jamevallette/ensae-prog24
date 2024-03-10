@@ -16,14 +16,13 @@ h = Grid.grid_from_file(file_bis)
 f = Grid.grid_from_file(grid0_path)
 
 
-
 #print(g)
 #print(g.grid_to_condensat())
 #print(g.neighbors())
 #print(Grid(2,2).neighbors())
 #print(Grid.condensat_to_grid(g.grid_to_condensat()))
-print(g.distance(Grid(4,4)))
-#print(Grid.bfs_final(g,h))
+#print(g.distance(Grid(4,4)))
+#print(Grid.bfs_final(g,Grid(4,4)))
 #print(Grid.distance_manhanttan(g))
 #print(g.solver_Astar())
 #print(g.solver_bfs())
