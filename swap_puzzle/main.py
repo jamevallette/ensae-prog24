@@ -2,15 +2,14 @@
 from grid import Grid
 import heapq
 
-data_path = "ensae-prog24/input/"
+data_path = "input/"
 
-file_name = data_path + "grid5.in"
-file_bis = data_path + "grid2_solved.in"
+file_name = data_path + "grid3.in"
+file_bis = data_path + "grid2_bis.in"
 
 grid0_path= data_path + "grid0.in"
 two_two_solved= Grid(2,2)
 
-print(file_name)
 
 g = Grid.grid_from_file(file_name)
 h = Grid.grid_from_file(file_bis)
@@ -20,13 +19,15 @@ f = Grid.grid_from_file(grid0_path)
 
 #print(g)
 #print(g.grid_to_condensat())
-#print(g.voisin())
-#print(Grid(2,2).voisin())
+#print(g.neighbors())
+#print(Grid(2,2).neighbors())
 #print(Grid.condensat_to_grid(g.grid_to_condensat()))
-#print(g.distance(h))
+print(g.distance(Grid(4,4)))
 #print(Grid.bfs_final(g,h))
-print(g.solver_Astar())
+#print(Grid.distance_manhanttan(g))
+#print(g.solver_Astar())
 #print(g.solver_bfs())
+#print(g.solver_Astar_improved(Grid.distance_manhanttan))
 
 """first_liste[0]
 import matplotlib.pyplot as plt

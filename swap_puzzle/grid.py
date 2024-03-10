@@ -110,9 +110,7 @@ class Grid():
                 return False
             return True
                 
-        # TODO: implement this function (and remove the line "raise NotImplementedError").
-        raise NotImplementedError
-    
+        
     def right_pos(self, cell):
         if state[cell[0]][cell[1]]==n*cell[0]+cell[1]+1:
             return True
@@ -185,7 +183,10 @@ class Grid():
             grid = Grid(m, n, initial_state)
         return grid
 
-    def voisin(self): #détermine tous les voisins d'une grille et retourne une liste de hash
+    def neighbors(self): 
+        # Find all neigbors of a given Grid
+        # Returns a list of hash
+
         neighbors=[]
         for i in range(self.m-1):
             for j in range(self.n-1):              
@@ -211,9 +212,11 @@ class Grid():
         return neighbors
 
     def distance(self,dst):
-        
-        #if isinstance(dst, str):
-        #    Grid.condensat_to_grid()
+        """
+        First distance that counts the misplaced tiles
+        in comparison with a "destination"
+
+        """
         distance = 0
         for i in range (self.m):
             for j in range (self.n):
@@ -222,7 +225,20 @@ class Grid():
         return distance
 
 
+    def distance_manhanttan(src):
+        """
+        Distance that compare the current place of a tile
+        with the desired place, meaning its place in the sorted grid
+        Only one argument, since the comparison 
+        
+        """
 
+        distance=0
+        for i in range(src.m):
+            for j in range (src.n):
+                distance += abs((src.state[i][j]-1)%(src.n)-j)
+                distance += abs((src.state[i][j]-1)//(src.n)-i)
+        return distance
 
     def bfs_final(src,dst):# fonction bfs appliquée à la grille, chaque noeud étant un état de la grille et chaque arête correspond à un swap #
         
@@ -247,7 +263,7 @@ class Grid():
                 return path
 
             visited_condensats.append(node)
-            neighbours = Grid.condensat_to_grid(node).voisin()
+            neighbours = Grid.condensat_to_grid(node).neighbors()
 
             for neighbour in neighbours:
                 if neighbour not in visited_condensats:
@@ -262,25 +278,26 @@ class Grid():
 
 
     def solver_Astar(self):
-        dst = Grid(self.m, self.n)  # État objectif
+        """
+        First A* solver
+        It uses a distance that counts misplaced tiles
+        """
+        dst = Grid(self.m, self.n)  
 
         src_name = self.grid_to_condensat()
         dst_name = dst.grid_to_condensat()
 
         visited_condensats = set()
-        priority = []  # File de priorité
+        priority = []  
 
-        # Initialisation avec l'état initial et son chemin
         initial_path = [src_name]
-        heapq.heappush(priority, (0, initial_path))  # Coût actuel = 0
+        heapq.heappush(priority, (0, initial_path))  
 
         while priority:
-            # Extraction de l'élément de priorité minimale
             cost, path = heapq.heappop(priority)
-            current_state = Grid.condensat_to_grid(path[-1])  # Dernier état du chemin
+            current_state = Grid.condensat_to_grid(path[-1])
 
             if current_state.grid_to_condensat() == dst_name:
-                # Solution trouvée
                 for step in path:
                     print(Grid.condensat_to_grid(step))
                 return len(path)
@@ -291,18 +308,62 @@ class Grid():
 
             visited_condensats.add(current_state.grid_to_condensat())
 
-            # Récupération des voisins de l'état actuel
-            neighbors = current_state.voisin()
+            neighbors = current_state.neighbors()
 
             for neighbour in neighbors:
-                # Coût du chemin actuel + coût pour atteindre le voisin + estimation heuristique du coût restant
                 new_cost = len(path) + Grid.condensat_to_grid(neighbour).distance(dst)
 
-                # Nouveau chemin avec le voisin ajouté
                 new_path = path + [neighbour]
 
-                # Ajout du nouveau chemin dans la file de priorité
                 heapq.heappush(priority, (new_cost, new_path))
 
-        # Si aucun chemin n'a été trouvé
+        return None
+
+    def solver_Astar_improved(self,distance_function):
+        """
+        Final solver that allow to choose the distance function used !
+        This aims to ease changing the heuristic.
+
+        Parameters: 
+        self : a "Grid" object
+        distance_function : function
+            The function has to take a grid as only argument
+        
+        """
+                
+        dst = Grid(self.m, self.n)  # État objectif
+
+        src_name = self.grid_to_condensat()
+        dst_name = dst.grid_to_condensat()
+
+        visited_condensats = set()
+        priority = []  
+        
+        initial_path = [src_name]
+        heapq.heappush(priority, (0, initial_path))  
+
+        while priority:
+            cost, path = heapq.heappop(priority)
+            current_state = Grid.condensat_to_grid(path[-1])  # Dernier état du chemin
+
+            if current_state.grid_to_condensat() == dst_name:
+                for step in path:
+                    print(Grid.condensat_to_grid(step))
+                return len(path)-1
+
+
+            if current_state.grid_to_condensat() in visited_condensats:
+                continue
+
+            visited_condensats.add(current_state.grid_to_condensat())
+
+            neighbors = current_state.neighbors()
+
+            for neighbour in neighbors:
+                new_cost = len(path) + distance_function(Grid.condensat_to_grid(neighbour))
+
+                new_path = path + [neighbour]
+
+                heapq.heappush(priority, (new_cost, new_path))
+
         return None
